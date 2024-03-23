@@ -56,10 +56,18 @@ def move():
 
     for target in targets:
         target.x -= 5
+        if not inside(target):
+            target.x *= -1
+            target.y *= -1
 
     if inside(ball):
         speed.y -= 0.35
         ball.move(speed)
+    else:
+        # Cuando la pelota sale de la ventana, reposicionarla en el borde
+        if ball.y < -200 or ball.y > 200:
+            speed.y *= -1
+            ball.y += speed.y * 2 
 
     dupe = targets.copy()
     targets.clear()
@@ -70,9 +78,6 @@ def move():
 
     draw()
 
-    for target in targets:
-        if not inside(target):
-            return
 
     ontimer(move, 50)
 
